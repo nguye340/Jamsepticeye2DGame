@@ -1,0 +1,1001 @@
+fileFormatVersion: 2
+guid: 275170452fe9f3448a9ef7fdc723a78c
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3205980724634228561
+    second: FableSmithLogo_0
+  - first:
+      213: -7357098463713157285
+    second: FableSmithLogo_1
+  - first:
+      213: -2229054387449269984
+    second: FableSmithLogo_2
+  - first:
+      213: -3252795505010029090
+    second: FableSmithLogo_3
+  - first:
+      213: 2219498765637307906
+    second: FableSmithLogo_4
+  - first:
+      213: 1972310694527623752
+    second: FableSmithLogo_5
+  - first:
+      213: -5412006748913482481
+    second: FableSmithLogo_6
+  - first:
+      213: 6854199848500965504
+    second: FableSmithLogo_7
+  - first:
+      213: -1057523348586977853
+    second: FableSmithLogo_8
+  - first:
+      213: -6362436243126492970
+    second: FableSmithLogo_9
+  - first:
+      213: 8223384725879381397
+    second: FableSmithLogo_10
+  - first:
+      213: -2542401233750729703
+    second: FableSmithLogo_11
+  - first:
+      213: -2991002833217422588
+    second: FableSmithLogo_12
+  - first:
+      213: -4692105928381823782
+    second: FableSmithLogo_13
+  - first:
+      213: 5759602133219151483
+    second: FableSmithLogo_14
+  - first:
+      213: -6008398903474905792
+    second: FableSmithLogo_15
+  - first:
+      213: -6589591059269397041
+    second: FableSmithLogo_16
+  - first:
+      213: 3469212107499996647
+    second: FableSmithLogo_17
+  - first:
+      213: -1932306305892764351
+    second: FableSmithLogo_18
+  - first:
+      213: -3712403383079561558
+    second: FableSmithLogo_19
+  - first:
+      213: 2288659902784705128
+    second: FableSmithLogo_20
+  - first:
+      213: 1776105783012100937
+    second: FableSmithLogo_21
+  - first:
+      213: -5378434757498631446
+    second: FableSmithLogo_22
+  - first:
+      213: 8744676977748116074
+    second: FableSmithLogo_23
+  - first:
+      213: 1145580997542849841
+    second: FableSmithLogo_24
+  - first:
+      213: -8881267609520168037
+    second: FableSmithLogo_25
+  - first:
+      213: 5483812708385103293
+    second: FableSmithLogo_26
+  - first:
+      213: 9011957244630376014
+    second: FableSmithLogo_27
+  - first:
+      213: -3739279885955945314
+    second: FableSmithLogo_28
+  - first:
+      213: 6146089827243147973
+    second: FableSmithLogo_29
+  - first:
+      213: -2161960547609155076
+    second: FableSmithLogo_30
+  - first:
+      213: -5798450708049261411
+    second: FableSmithLogo_31
+  - first:
+      213: 3257681593270807589
+    second: FableSmithLogo_32
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: WindowsStoreApps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: FableSmithLogo_0
+      rect:
+        serializedVersion: 2
+        x: 6346
+        y: 7881
+        width: 15
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1579298ab7eed7c20800000000000000
+      internalID: 3205980724634228561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_1
+      rect:
+        serializedVersion: 2
+        x: 4450
+        y: 7827
+        width: 17
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b5f1ec44de556e990800000000000000
+      internalID: -7357098463713157285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_2
+      rect:
+        serializedVersion: 2
+        x: 5004
+        y: 7811
+        width: 15
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0217f0b38dec011e0800000000000000
+      internalID: -2229054387449269984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_3
+      rect:
+        serializedVersion: 2
+        x: 4324
+        y: 7791
+        width: 15
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eddc3e4e8bfbbd2d0800000000000000
+      internalID: -3252795505010029090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_4
+      rect:
+        serializedVersion: 2
+        x: 4718
+        y: 7799
+        width: 15
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20eca313e5e3dce10800000000000000
+      internalID: 2219498765637307906
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_5
+      rect:
+        serializedVersion: 2
+        x: 4618
+        y: 7755
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 842e50e702e0f5b10800000000000000
+      internalID: 1972310694527623752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_6
+      rect:
+        serializedVersion: 2
+        x: 4812
+        y: 7745
+        width: 13
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f05cef03980b4e4b0800000000000000
+      internalID: -5412006748913482481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_7
+      rect:
+        serializedVersion: 2
+        x: 4636
+        y: 7725
+        width: 15
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 080bf6572720f1f50800000000000000
+      internalID: 6854199848500965504
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_8
+      rect:
+        serializedVersion: 2
+        x: 4108
+        y: 7701
+        width: 15
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3c5aac11e1ce251f0800000000000000
+      internalID: -1057523348586977853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_9
+      rect:
+        serializedVersion: 2
+        x: 170
+        y: 117
+        width: 7229
+        height: 7565
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6d0ef5e42f514b7a0800000000000000
+      internalID: -6362436243126492970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_10
+      rect:
+        serializedVersion: 2
+        x: 7462
+        y: 6779
+        width: 11
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59dd96db6d45f1270800000000000000
+      internalID: 8223384725879381397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_11
+      rect:
+        serializedVersion: 2
+        x: 7750
+        y: 6263
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91cd5c15c8397bcd0800000000000000
+      internalID: -2542401233750729703
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_12
+      rect:
+        serializedVersion: 2
+        x: 7564
+        y: 6185
+        width: 15
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 40b73eb25c2dd76d0800000000000000
+      internalID: -2991002833217422588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_13
+      rect:
+        serializedVersion: 2
+        x: 7550
+        y: 6085
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ad40c4a948a42eeb0800000000000000
+      internalID: -4692105928381823782
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_14
+      rect:
+        serializedVersion: 2
+        x: 7790
+        y: 6007
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7e0c1edf973eef40800000000000000
+      internalID: 5759602133219151483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_15
+      rect:
+        serializedVersion: 2
+        x: 8084
+        y: 5759
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 04d1889f701ed9ca0800000000000000
+      internalID: -6008398903474905792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_16
+      rect:
+        serializedVersion: 2
+        x: 8072
+        y: 5513
+        width: 9
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fc5582148d11d84a0800000000000000
+      internalID: -6589591059269397041
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_17
+      rect:
+        serializedVersion: 2
+        x: 8066
+        y: 5425
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7e58506f70e152030800000000000000
+      internalID: 3469212107499996647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_18
+      rect:
+        serializedVersion: 2
+        x: 7432
+        y: 5031
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 145b30017a11f25e0800000000000000
+      internalID: -1932306305892764351
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_19
+      rect:
+        serializedVersion: 2
+        x: 7420
+        y: 4985
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aa69590dac4ea7cc0800000000000000
+      internalID: -3712403383079561558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_20
+      rect:
+        serializedVersion: 2
+        x: 7432
+        y: 4951
+        width: 9
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 86299254e04f2cf10800000000000000
+      internalID: 2288659902784705128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_21
+      rect:
+        serializedVersion: 2
+        x: 7416
+        y: 4929
+        width: 13
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 94b04f7accef5a810800000000000000
+      internalID: 1776105783012100937
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_22
+      rect:
+        serializedVersion: 2
+        x: 8038
+        y: 4901
+        width: 15
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: aea0eaf8516fb55b0800000000000000
+      internalID: -5378434757498631446
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_23
+      rect:
+        serializedVersion: 2
+        x: 7398
+        y: 4887
+        width: 11
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a62863641655b5970800000000000000
+      internalID: 8744676977748116074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_24
+      rect:
+        serializedVersion: 2
+        x: 4674
+        y: 95
+        width: 2621
+        height: 4249
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13daaf309dbe5ef00800000000000000
+      internalID: 1145580997542849841
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_25
+      rect:
+        serializedVersion: 2
+        x: 7878
+        y: 3585
+        width: 13
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b932e530a266fb480800000000000000
+      internalID: -8881267609520168037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_26
+      rect:
+        serializedVersion: 2
+        x: 7686
+        y: 3501
+        width: 17
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dbd11129a9a6a1c40800000000000000
+      internalID: 5483812708385103293
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_27
+      rect:
+        serializedVersion: 2
+        x: 3008
+        y: 277
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4e9339dd57e01d70800000000000000
+      internalID: 9011957244630376014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_28
+      rect:
+        serializedVersion: 2
+        x: 3018
+        y: 273
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e9c25d951c86b1cc0800000000000000
+      internalID: -3739279885955945314
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_29
+      rect:
+        serializedVersion: 2
+        x: 3040
+        y: 277
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5c2487e622c4b4550800000000000000
+      internalID: 6146089827243147973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_30
+      rect:
+        serializedVersion: 2
+        x: 3108
+        y: 275
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cf9e855265c2ff1e0800000000000000
+      internalID: -2161960547609155076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_31
+      rect:
+        serializedVersion: 2
+        x: 2780
+        y: 223
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9c8c137dc3c78fa0800000000000000
+      internalID: -5798450708049261411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FableSmithLogo_32
+      rect:
+        serializedVersion: 2
+        x: 2866
+        y: 73
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 52c2c3e262c953d20800000000000000
+      internalID: 3257681593270807589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      FableSmithLogo_0: 3205980724634228561
+      FableSmithLogo_1: -7357098463713157285
+      FableSmithLogo_10: 8223384725879381397
+      FableSmithLogo_11: -2542401233750729703
+      FableSmithLogo_12: -2991002833217422588
+      FableSmithLogo_13: -4692105928381823782
+      FableSmithLogo_14: 5759602133219151483
+      FableSmithLogo_15: -6008398903474905792
+      FableSmithLogo_16: -6589591059269397041
+      FableSmithLogo_17: 3469212107499996647
+      FableSmithLogo_18: -1932306305892764351
+      FableSmithLogo_19: -3712403383079561558
+      FableSmithLogo_2: -2229054387449269984
+      FableSmithLogo_20: 2288659902784705128
+      FableSmithLogo_21: 1776105783012100937
+      FableSmithLogo_22: -5378434757498631446
+      FableSmithLogo_23: 8744676977748116074
+      FableSmithLogo_24: 1145580997542849841
+      FableSmithLogo_25: -8881267609520168037
+      FableSmithLogo_26: 5483812708385103293
+      FableSmithLogo_27: 9011957244630376014
+      FableSmithLogo_28: -3739279885955945314
+      FableSmithLogo_29: 6146089827243147973
+      FableSmithLogo_3: -3252795505010029090
+      FableSmithLogo_30: -2161960547609155076
+      FableSmithLogo_31: -5798450708049261411
+      FableSmithLogo_32: 3257681593270807589
+      FableSmithLogo_4: 2219498765637307906
+      FableSmithLogo_5: 1972310694527623752
+      FableSmithLogo_6: -5412006748913482481
+      FableSmithLogo_7: 6854199848500965504
+      FableSmithLogo_8: -1057523348586977853
+      FableSmithLogo_9: -6362436243126492970
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
