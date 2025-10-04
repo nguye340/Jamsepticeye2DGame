@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f5c154a451bf4e41a740669ae12ef46, type: 3}
   m_Name: DoubleJumpFruit
   m_EditorClassIdentifier: 
-  Id: 
-  DisplayName: 
-  Icon: {fileID: 0}
-  GrantsAbility: 0
+  Id: fruit_doublejump
+  DisplayName: Double Jump Fruit
+  Icon: {fileID: -233750716261720679, guid: 04e3be719b845434fa4958d333ecff19, type: 3}
+  GrantsAbility: 1
   CorpsePrefab: {fileID: 0}
-  PickupSfx: {fileID: 0}
+  PickupSfx: {fileID: 8300000, guid: 92a4d933906bdc0409bca391a55ee5c6, type: 3}
