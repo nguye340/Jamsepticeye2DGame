@@ -1,0 +1,29 @@
+{
+    "$schema": "https://json.schemastore.org/settings",
+    "omnisharp.enableMsBuildLoadProjectsOnDemand": true,
+    "omnisharp.enableRoslynAnalyzers": true,
+    "omnisharp.enableEditorConfigSupport": true,
+    "omnisharp.useModernNet": true,
+    "csharp.suppressDotnetInstallWarning": true,
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true
+    },
+    "files.exclude": {
+        "**/.git": true,
+        "**/.DS_Store": true,
+        "**/*.meta": true,
+        "**/Library": true,
+        "**/Temp": true,
+        "**/Obj": true,
+        "**/Build": true,
+        "**/Builds": true
+    },
+    "files.associations": {
+        "*.shader": "hlsl",
+        "*.cginc": "hlsl"
+    },
+    "[csharp]": {
+        "editor.defaultFormatter": "ms-dotnettools.csharp"
+    }
+}

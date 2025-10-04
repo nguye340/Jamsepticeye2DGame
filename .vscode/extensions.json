@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+        "ms-dotnettools.csharp",
+        "tobiah.unity-tools",
+        "kleber-swf.unity-code-snippets",
+        "unity.unity-debug",
+        "yclepticstudios.unity-snippets",
+        "unity.monodevelop-csharp",
+        "eamodio.gitlens"
+    ]
+}
