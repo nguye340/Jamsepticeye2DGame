@@ -17,6 +17,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float coyoteTime = 0.1f;
     [SerializeField] private float jumpBufferTime = 0.1f;
     [SerializeField] private float jumpCutMultiplier = 0.5f;
+    [SerializeField] private float maxJumps = 2;
+    private int jumpsRemaining;
 
     [Header("Ground Check")]
     [SerializeField] private LayerMask groundLayer;
