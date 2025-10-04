@@ -1,0 +1,45 @@
+using System.Linq;  // Add this at the top
+using UnityEngine;
+
+namespace Systems
+{
+    public static class CorpseImbueResolver
+    {
+        public static FruitDefinition ChooseFruitForCorpse(
+            DeathType type, 
+            FruitInventory inventory, 
+            bool isLastLife, 
+            bool playerChoseSpecific, 
+            FruitDefinition chosen)
+        {
+            if (inventory == null) 
+                return null;
+
+            switch (type)
+            {
+                case DeathType.Unintentional:
+                    return inventory.RemoveOneRandomFruit();
+
+                case DeathType.Intentional:
+                    if (isLastLife && inventory.TotalCount() == 1)
+                    {
+                        var lastFruit = inventory.GetAllTypes().FirstOrDefault();
+                        if (lastFruit != null && inventory.RemoveOne(lastFruit))
+                        {
+                            return lastFruit;
+                        }
+                    }
+                    else if (playerChoseSpecific && chosen != null && inventory.Contains(chosen))
+                    {
+                        if (inventory.RemoveOne(chosen))
+                        {
+                            return chosen;
+                        }
+                    }
+                    break;
+            }
+
+            return null;
+        }
+    }
+}
