@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
-using Systems;
+using Systems; // Our own scripts in the Systems folder
+using System; // UnityEngine namespace
 using System.Collections.Generic;
 
 public class PlayerHealth : MonoBehaviour
@@ -10,7 +11,15 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private int maxHearts = 3;
     [SerializeField] private int baseMaxHearts = 3;
     [SerializeField] private int extraSlotsFromHealing = 0;
+
+    // Public properties
+    public int CurrentHearts => currentHearts;
     public int BaseMaxHearts => baseMaxHearts;
+    public int MaxHearts => baseMaxHearts + extraSlotsFromHealing;
+    public int ExtraSlotsFromHealing => extraSlotsFromHealing;
+    
+    // Public event
+    public event Action OnHeartsChanged = delegate { };
 
     [Header("Spawn Points")]
     [SerializeField] private Transform startSpawn;
@@ -128,7 +137,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
-        currentHearts = Mathf.Max(0, currentHearts - amount);
+        ModifyHearts(-amount);
         if (currentHearts <= 0)
         {
             DieInternal(DeathType.Unintentional);
@@ -302,5 +311,12 @@ public class PlayerHealth : MonoBehaviour
     public void ClearExtraSlots()
     {
         extraSlotsFromHealing = 0;
+    }
+
+    //////////////// To MODIFY HEARTS////////////
+    public void ModifyHearts(int amount)
+    {
+        currentHearts = Mathf.Clamp(currentHearts + amount, 0, MaxHearts);
+        OnHeartsChanged?.Invoke();
     }
 }

@@ -25,6 +25,17 @@ public class FruitInventory : MonoBehaviour
         }
     }
 
+    //////////////// FOR FRUIT INVENTORY UI - Duplicate to be fixed///////////
+    public bool HasFruit(string fruitName)
+    {
+        return fruitStacks.Any(stack => stack.Fruit.name == fruitName && stack.Count > 0);
+    }
+    public FruitDefinition GetFruitDefinitionByName(string fruitName)
+    {
+        var stack = fruitStacks.FirstOrDefault(s => s.Fruit.name == fruitName);
+        return stack?.Fruit;
+    }
+
     /// <summary>
     /// Checks if the inventory has any fruits
     /// </summary>
@@ -32,6 +43,7 @@ public class FruitInventory : MonoBehaviour
     {
         return fruitStacks.Any(stack => stack.Count > 0);
     }
+    
 
     /// <summary>
     /// Returns the total count of all fruits
