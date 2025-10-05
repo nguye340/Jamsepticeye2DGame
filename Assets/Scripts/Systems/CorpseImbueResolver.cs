@@ -21,19 +21,21 @@ namespace Systems
                     return inventory.RemoveOneRandomFruit();
 
                 case DeathType.Intentional:
-                    if (isLastLife && inventory.TotalCount() == 1)
+                    // If player specifically chose a fruit, use that
+                    if (playerChoseSpecific && chosen != null && inventory.Contains(chosen))
+                    {
+                        if (inventory.RemoveOne(chosen))
+                        {
+                            return chosen;
+                        }
+                    }
+                    // If it's the last life with one fruit, use that fruit
+                    else if (isLastLife && inventory.TotalCount() == 1)
                     {
                         var lastFruit = inventory.GetAllTypes().FirstOrDefault();
                         if (lastFruit != null && inventory.RemoveOne(lastFruit))
                         {
                             return lastFruit;
-                        }
-                    }
-                    else if (playerChoseSpecific && chosen != null && inventory.Contains(chosen))
-                    {
-                        if (inventory.RemoveOne(chosen))
-                        {
-                            return chosen;
                         }
                     }
                     break;

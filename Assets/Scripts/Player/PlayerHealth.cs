@@ -29,15 +29,51 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] private SimpleFruitChoiceUI fruitChoiceUI;
     // Temporary field for player's fruit choice (will be set by UI)
     private FruitDefinition pendingChosenFruit;
-    
+    private FruitDatabase fruitDB;
+
     private void Awake()
     {
         if (abilityController == null)
             abilityController = GetComponent<PlayerAbilityController>();
-            
+                
         if (fruitInventory == null)
             fruitInventory = GetComponent<FruitInventory>();
+        
+        // Try to load the database
+        fruitDB = Resources.Load<FruitDatabase>("FruitDatabase");
+        
+        // Debug information
+        if (fruitDB != null)
+        {
+            Debug.Log("Successfully loaded FruitDatabase");
+        }
+        else
+        {
+            Debug.LogError("Failed to load FruitDatabase! Make sure there's a FruitDatabase.asset in a Resources folder.");
             
+            // List all available resources for debugging
+            var allResources = Resources.LoadAll<FruitDatabase>("");
+            Debug.Log($"Found {allResources.Length} FruitDatabase assets in all Resources folders");
+            foreach (var db in allResources)
+            {
+                Debug.Log($"Found FruitDatabase: {db.name}");
+            }
+        }
+                
+        // Try to find the UI if not assigned
+        if (fruitChoiceUI == null)
+        {
+            fruitChoiceUI = FindObjectOfType<SimpleFruitChoiceUI>();
+            if (fruitChoiceUI == null)
+            {
+                Debug.LogError("Could not find SimpleFruitChoiceUI in the scene! Make sure it exists and is active.");
+            }
+            else
+            {
+                Debug.Log("Found SimpleFruitChoiceUI in the scene");
+            }
+        }
+        
         // Subscribe to our own death event
         onDied.AddListener(HandleDeath);
     }
@@ -87,7 +123,7 @@ public class PlayerHealth : MonoBehaviour
 
     public bool CanIntentionalDie()
     {
-        return currentHearts > 0 || (currentHearts == 0 && fruitInventory != null && fruitInventory.HasAnyFruit());
+        return currentHearts > 0 || (currentHearts == 0 && fruitInventory != null && fruitInventory.TotalCount() >= 2);
     }
 
     public void TakeDamage(int amount)
@@ -101,36 +137,67 @@ public class PlayerHealth : MonoBehaviour
 
     private void IntentionalSacrifice()
     {
-        // Get the inventory component
-        var inventory = GetComponent<Inventory>();
-        if (inventory == null)
+        Debug.Log("IntentionalSacrifice called");
+        
+        // Get the fruit inventory component
+        if (fruitInventory == null)
         {
-            Debug.LogError("Inventory component not found on player!");
-            return;
+            fruitInventory = GetComponent<FruitInventory>();
+            if (fruitInventory == null)
+            {
+                Debug.LogError("FruitInventory component not found on player!");
+                return;
+            }
         }
 
-        if (currentHearts > 0 && inventory.TotalCount() >= 2)
+        Debug.Log($"Current hearts: {currentHearts}, Fruit count: {fruitInventory.TotalCount()}");
+
+        if (currentHearts > 0 && fruitInventory.TotalCount() >= 1)
         {
-            var fruitDB = FindObjectOfType<FruitDatabase>();
+            Debug.Log("Checking fruit database...");
             if (fruitDB == null)
             {
-                Debug.LogError("FruitDatabase not found in scene!");
+                Debug.LogError("FruitDatabase reference is null!");
                 return;
             }
 
-            var allFruits = fruitDB.GetAllFruits();
-            
-            if (allFruits.Count == 1)
+            // Get only the fruits that are in our inventory
+            var fruitsInInventory = new List<FruitDefinition>();
+            foreach (var fruitType in fruitInventory.GetAllTypes())
             {
-                // If only one fruit type, skip UI
-                pendingChosenFruit = allFruits[0];
+                if (fruitInventory.GetCount(fruitType) > 0)
+                {
+                    fruitsInInventory.Add(fruitType);
+                }
+            }
+            
+            Debug.Log($"Found {fruitsInInventory.Count} fruits in inventory");
+            
+            if (fruitsInInventory.Count == 0)
+            {
+                Debug.LogError("No fruits found in inventory!");
+                return;
+            }
+            
+            if (fruitsInInventory.Count == 1)
+            {
+                Debug.Log("Only one fruit type in inventory, skipping UI");
+                pendingChosenFruit = fruitsInInventory[0];
                 DieInternal(DeathType.Intentional);
             }
             else
             {
-                // Show UI for multiple fruits
-                fruitChoiceUI.ShowFruitChoice(allFruits, "Choose a fruit to sacrifice:", (chosenFruit) => 
+                Debug.Log("Multiple fruits in inventory, showing UI");
+                if (fruitChoiceUI == null)
                 {
+                    Debug.LogError("fruitChoiceUI is not assigned!");
+                    return;
+                }
+                
+                // Show UI for multiple fruits
+                fruitChoiceUI.ShowFruitChoice(fruitsInInventory, "Sow your sacrifice?", (chosenFruit) => 
+                {
+                    Debug.Log($"Fruit chosen: {chosenFruit?.name ?? "null"}");
                     pendingChosenFruit = chosenFruit;
                     DieInternal(DeathType.Intentional);
                 });
@@ -174,8 +241,10 @@ public class PlayerHealth : MonoBehaviour
                     var spawnObj = new GameObject("LocalSpawnPoint");
                     lastLocalSpawn = spawnObj.transform;
                 }
-                lastLocalSpawn.position = deathPos;
-                transform.position = lastLocalSpawn.position;
+                // Add a small vertical offset to prevent clipping through the ground
+                Vector3 spawnPosition = deathPos + Vector3.up * 0.5f;
+                lastLocalSpawn.position = spawnPosition;
+                transform.position = spawnPosition;
                 break;
 
             case RespawnKind.Permanent:
@@ -203,7 +272,14 @@ public class PlayerHealth : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            TakeDamage(1);
+            if (CanIntentionalDie())
+            {
+                IntentionalSacrifice();
+            }
+            else
+            {
+                Debug.Log("Cannot sacrifice - need at least 2 fruits in inventory or be at 0 hearts with fruits");
+            }
         }
     }
 

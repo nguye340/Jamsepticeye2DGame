@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1316183741417288403}
   - component: {fileID: 4143307475136468666}
   - component: {fileID: 8682294465400178150}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: DefaultCorpse
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f5c154a451bf4e41a740669ae12ef46, type: 3}
-  m_Name: HeavyFruit
+  m_Name: Heavy
   m_EditorClassIdentifier: 
   Id: fruit_toughskin
   DisplayName: Resilliency
