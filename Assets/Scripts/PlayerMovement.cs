@@ -33,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerInput playerInput;
     private InputAction moveAction;
     private InputAction jumpAction;
+    private Animator animator;
 
     // State
     private float moveInput;
@@ -47,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<BoxCollider2D>();
         playerInput = GetComponent<PlayerInput>();
+        animator = GetComponent<Animator>();
         
         moveAction = playerInput.actions["Move"];
         jumpAction = playerInput.actions["Jump"];
@@ -66,6 +68,8 @@ public class PlayerMovement : MonoBehaviour
     {
         Move();
         HandleGravity();
+        animator.SetFloat("xVelocity", Mathf.Abs(rb.linearVelocity.x));
+        animator.SetFloat("yVelocity", rb.linearVelocity.y);
     }
 
     private void HandleInput()
@@ -117,6 +121,8 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.linearVelocity += Vector2.up * (Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.fixedDeltaTime);
         }
+
+        animator.SetBool("isJumping", !isGrounded);
     }
 
     private void HandleGravity()
@@ -160,6 +166,8 @@ public class PlayerMovement : MonoBehaviour
                 isJumping = false;
             }
         }
+
+        animator.SetBool("isJumping", !isGrounded);
     }
 
     private void Flip()
