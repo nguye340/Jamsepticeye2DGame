@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -5,6 +6,10 @@ using Systems;
 
 public class FruitInventory : MonoBehaviour
 {
+    // Event that's triggered when a fruit is removed from the inventory
+    public event Action<FruitDefinition> OnFruitRemoved;
+    public static FruitInventory Instance { get; private set; }
+
     [SerializeField] private List<FruitStackItem> fruitStacks = new List<FruitStackItem>();
 
     /// <summary>
@@ -25,89 +30,28 @@ public class FruitInventory : MonoBehaviour
         }
     }
 
-    //////////////// FOR FRUIT INVENTORY UI - Duplicate to be fixed///////////
-    public bool HasFruit(string fruitName)
-    {
-        return fruitStacks.Any(stack => stack.Fruit.name == fruitName && stack.Count > 0);
-    }
-    public FruitDefinition GetFruitDefinitionByName(string fruitName)
-    {
-        var stack = fruitStacks.FirstOrDefault(s => s.Fruit.name == fruitName);
-        return stack?.Fruit;
-    }
-
-    /// <summary>
-    /// Checks if the inventory has any fruits
-    /// </summary>
-    public bool HasAnyFruit()
-    {
-        return fruitStacks.Any(stack => stack.Count > 0);
-    }
-    
-
-    /// <summary>
-    /// Returns the total count of all fruits
-    /// </summary>
-    public int TotalCount()
-    {
-        return fruitStacks.Sum(stack => stack.Count);
-    }
-
-    /// <summary>
-    /// Removes and returns one random fruit, or null if empty
-    /// Picks uniformly among all available fruits
-    /// </summary>
-    public FruitDefinition RemoveOneRandomFruit()
-    {
-        if (!HasAnyFruit()) return null;
-
-        // Create a list of all available fruits with their counts
-        var availableFruits = new List<FruitDefinition>();
-        foreach (var stack in fruitStacks)
-        {
-            for (int i = 0; i < stack.Count; i++)
-            {
-                availableFruits.Add(stack.Fruit);
-            }
-        }
-
-        // Pick a random fruit
-        int randomIndex = Random.Range(0, availableFruits.Count);
-        FruitDefinition selectedFruit = availableFruits[randomIndex];
-
-        // Remove one from the stack
-        RemoveOne(selectedFruit);
-
-        return selectedFruit;
-    }
-
-    /// <summary>
-    /// Removes one specific fruit if available
-    /// </summary>
-    /// <returns>True if a fruit was removed, false otherwise</returns>
-    public bool RemoveOne(FruitDefinition fruit)
-    {
-        if (fruit == null) return false;
-
-        var stack = fruitStacks.FirstOrDefault(s => s.Fruit == fruit);
-        if (stack != null && stack.Count > 0)
-        {
-            stack.Count--;
-            if (stack.Count <= 0)
-            {
-                fruitStacks.Remove(stack);
-            }
-            return true;
-        }
-        return false;
-    }
-
     /// <summary>
     /// Removes all fruits from the inventory
     /// </summary>
-    public void ClearAll()
+    private void Awake()
     {
-        fruitStacks.Clear();
+        // Singleton pattern
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        
+        // Initialize fruit stacks if empty
+        if (fruitStacks == null)
+        {
+            fruitStacks = new List<FruitStackItem>();
+        }
     }
 
     /// <summary>
@@ -131,6 +75,68 @@ public class FruitInventory : MonoBehaviour
             .Where(stack => stack.Fruit == fruit)
             .Sum(stack => stack.Count);
     }
+    
+    public int TotalCount()
+    {
+        return fruitStacks.Sum(stack => stack.Count);
+    }
+    
+    /// <summary>
+    /// Checks if the inventory contains a fruit with the specified name (case insensitive)
+    /// </summary>
+    public bool HasFruit(string fruitName)
+    {
+        if (string.IsNullOrEmpty(fruitName)) return false;
+        
+        return fruitStacks.Any(stack => 
+            stack.Fruit != null && 
+            !string.IsNullOrEmpty(stack.Fruit.name) &&
+            stack.Fruit.name.IndexOf(fruitName, StringComparison.OrdinalIgnoreCase) >= 0 &&
+            stack.Count > 0);
+    }
+    
+    public bool RemoveOne(FruitDefinition fruit)
+    {
+        var stack = fruitStacks.FirstOrDefault(s => s.Fruit == fruit);
+        if (stack != null && stack.Count > 0)
+        {
+            stack.Count--;
+            bool wasRemoved = stack.Count <= 0;
+            
+            // Notify listeners that a fruit was removed
+            OnFruitRemoved?.Invoke(fruit);
+            
+            if (wasRemoved)
+            {
+                fruitStacks.Remove(stack);
+            }
+            return true;
+        }
+        return false;
+    }
+    
+    public FruitDefinition RemoveOneRandomFruit()
+    {
+        if (fruitStacks.Count == 0) return null;
+        
+        // Get a random stack with count > 0
+        var validStacks = fruitStacks.Where(s => s.Count > 0).ToList();
+        if (validStacks.Count == 0) return null;
+        
+        var randomStack = validStacks[UnityEngine.Random.Range(0, validStacks.Count)];
+        var fruit = randomStack.Fruit;
+        randomStack.Count--;
+        
+        // Notify listeners that a fruit was removed
+        OnFruitRemoved?.Invoke(fruit);
+        
+        if (randomStack.Count <= 0)
+        {
+            fruitStacks.Remove(randomStack);
+        }
+        
+        return fruit;
+    }
 
     /// <summary>
     /// Returns true if the inventory contains at least one of the specified fruit
@@ -139,5 +145,19 @@ public class FruitInventory : MonoBehaviour
     {
         if (fruit == null) return false;
         return fruitStacks.Any(stack => stack.Fruit == fruit && stack.Count > 0);
+    }
+    
+    
+    /// <summary>
+    /// Gets a fruit definition by its name
+    /// </summary>
+    public FruitDefinition GetFruitDefinitionByName(string fruitName)
+    {
+        if (string.IsNullOrEmpty(fruitName)) return null;
+        var stack = fruitStacks.FirstOrDefault(s => 
+            s.Fruit != null && 
+            s.Fruit.name == fruitName && 
+            s.Count > 0);
+        return stack?.Fruit;
     }
 }

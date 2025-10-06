@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f5c154a451bf4e41a740669ae12ef46, type: 3}
-  m_Name: Double Jump
+  m_Name: Healing
   m_EditorClassIdentifier: 
-  Id: fruit_doublejump
-  DisplayName: Double Jump
-  Icon: {fileID: 5586426307050845698, guid: 04e3be719b845434fa4958d333ecff19, type: 3}
-  GrantsAbility: 1
-  CorpsePrefab: {fileID: 757056372197791169, guid: d0513ec23bdb14342aa47c7f2357f49a, type: 3}
-  PickupSfx: {fileID: 8300000, guid: 92a4d933906bdc0409bca391a55ee5c6, type: 3}
+  Id: fruit_healing
+  DisplayName: Healing Fruit
+  Icon: {fileID: -3782125937150523647, guid: 04e3be719b845434fa4958d333ecff19, type: 3}
+  GrantsAbility: 7
+  CorpsePrefab: {fileID: 9173810326303020587, guid: 50e88e3e4b304164db4062f1031e9140, type: 3}
+  PickupSfx: {fileID: 8300000, guid: 65f88f94eaa6a7f45bc4d91ef7ecba62, type: 3}
