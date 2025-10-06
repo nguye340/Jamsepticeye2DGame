@@ -107,45 +107,24 @@ public class TreeHealingZone : MonoBehaviour
         // Update HUD and handle healing
         playerHUD.SetNearHealingTree(playerInRange);
         
-        if (playerInRange)
+        bool wasInRange = isPlayerInRange;
+        isPlayerInRange = playerInRange && !playerHealth.IsDying;
+        
+        // Handle healing and visual effects
+        if (isPlayerInRange)
         {
-            // Calculate heal progress (0 to 1) based on time
+            // Update HUD with heal progress
             float healProgress = (Mathf.Sin(Time.time * pulseSpeed) + 1f) * 0.5f;
             playerHUD.UpdateHealTick(healProgress);
             
             // Only heal if player is not at max health
             if (playerHealth.CurrentHearts < playerHealth.MaxHearts)
             {
-                playerHealth.HealOverTime(healAmountPerSecond * Time.deltaTime);
+                playerHealth.HealOverTime(healAmountPerSecond);
             }
             
-            // Visual feedback - pulse the tree
+            // Visual pulse effect for the tree
             if (treeRenderer != null)
-            {
-                float pulse = Mathf.PingPong(Time.time * pulseSpeed, 1f) * maxPulseIntensity;
-                treeRenderer.color = Color.Lerp(originalColor, healColor, pulse);
-            }
-        }
-        else if (treeRenderer != null)
-        {
-            // Reset tree color when player leaves
-            treeRenderer.color = originalColor;
-        }
-        
-        bool wasInRange = isPlayerInRange;
-        isPlayerInRange = playerInRange;
-        
-        // Handle healing and visual effects
-        if (isPlayerInRange && !playerHealth.IsDying)
-        {
-            // Only heal if player is not at max health
-            if (playerHealth.CurrentHearts < playerHealth.MaxHearts)
-            {
-                playerHealth.HealOverTime(healAmountPerSecond * Time.deltaTime);
-            }
-            
-            // Visual pulse effect
-            if (treeRenderer != null && originalColor != null)
             {
                 try 
                 {
@@ -163,18 +142,23 @@ public class TreeHealingZone : MonoBehaviour
                     
                     // Apply the color
                     treeRenderer.color = targetColor;
-                    
                 }
-                catch (System.Exception)
+                catch (System.Exception e)
                 {
-                    // Error in pulse effect
+                    Debug.LogWarning("Error in tree pulse effect: " + e.Message);
                 }
             }
         }
-        else if (wasInRange && !isPlayerInRange && treeRenderer != null)
+        else if (wasInRange && !isPlayerInRange)
         {
-            // Reset color when player leaves
-            treeRenderer.color = originalColor;
+            // Reset tree color when player leaves
+            if (treeRenderer != null)
+            {
+                treeRenderer.color = originalColor;
+            }
+            
+            // Reset HUD
+            playerHUD.UpdateHealTick(0f);
         }
     }
     

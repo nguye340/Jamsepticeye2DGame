@@ -48,7 +48,6 @@ public class PlayerHealth : MonoBehaviour
     private bool isHealing = false;
     private bool isInHealingZone = false;
     private float accumulatedHealing = 0f; // Track partial healing amounts
-    private float healPulseTimer = 0f;
     
     [Header("Events")]
     public UnityEvent onRespawn;
@@ -714,6 +713,7 @@ public class PlayerHealth : MonoBehaviour
                 originalPlayerColor = playerRenderer.color;
             }
         }
+    }
     
     // Call this when entering a healing zone
     public void SetInHealingZone(bool inZone)
@@ -722,46 +722,46 @@ public class PlayerHealth : MonoBehaviour
         
         isInHealingZone = inZone;
         
+        if (playerRenderer == null) return;
+        
+        // Store original color if not already stored
+        if (originalPlayerColor == default(Color))
+        {
+            originalPlayerColor = playerRenderer.color;
+        }
+        
         if (inZone)
         {
-            // Store original color if not already stored
-            if (playerRenderer != null && originalPlayerColor == default(Color))
-            {
-                originalPlayerColor = playerRenderer.color;
-            }
-            
             // Apply healing zone visual effect
-            if (playerRenderer != null)
-            {
-                playerRenderer.color = healingZoneColor;
-            }
+            playerRenderer.color = healingZoneColor;
+            isHealing = false; // Disable healing pulse effect while in healing zone
         }
         else
         {
             // Restore original color when leaving healing zone
-            if (playerRenderer != null && originalPlayerColor != default(Color))
-            {
-                playerRenderer.color = originalPlayerColor;
-            }
+            playerRenderer.color = originalPlayerColor;
         }
     }
     
-    private void HandleHealingPulse()
+    void HandleHealingPulse()
     {
         if (playerRenderer == null) return;
         
         if (isInHealingZone)
         {
             // In healing zone - solid green color
-            playerRenderer.color = healingZoneColor;
+            if (playerRenderer.color != healingZoneColor)
+            {
+                playerRenderer.color = healingZoneColor;
+            }
         }
         else if (isHealing)
         {
-            // Regular healing pulse effect
+            // Regular healing pulse effect (pink/red)
             float pulse = (Mathf.Sin(Time.time * healPulseSpeed) + 1) * 0.5f * healPulseIntensity + (1 - healPulseIntensity);
-            playerRenderer.color = new Color(1, pulse, pulse, 1f);
+            playerRenderer.color = new Color(1, pulse, pulse, playerRenderer.color.a);
         }
-        else if (playerRenderer.color != originalPlayerColor)
+        else if (playerRenderer.color != originalPlayerColor && playerRenderer.color != healingZoneColor)
         {
             // Smoothly transition back to original color
             playerRenderer.color = Color.Lerp(playerRenderer.color, originalPlayerColor, Time.deltaTime * 5f);
