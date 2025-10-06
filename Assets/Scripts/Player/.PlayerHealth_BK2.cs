@@ -42,13 +42,10 @@ public class PlayerHealth : MonoBehaviour
     [Header("Healing")]
     [SerializeField] private float healPulseIntensity = 0.3f;
     [SerializeField] private float healPulseSpeed = 2f;
-    [SerializeField] private Color healingZoneColor = new Color(0.2f, 1f, 0.2f, 1f); // Bright green color for healing zone
     
     private Color originalPlayerColor;
     private bool isHealing = false;
-    private bool isInHealingZone = false;
     private float accumulatedHealing = 0f; // Track partial healing amounts
-    private float healPulseTimer = 0f;
     
     [Header("Events")]
     public UnityEvent onRespawn;
@@ -142,61 +139,52 @@ public class PlayerHealth : MonoBehaviour
         // Set dying state immediately to prevent multiple sacrifices
         isDying = true;
         
-        // Wait one frame to ensure all state is consistent
-        yield return null;
-        
-        // Store the current hearts before sacrifice for logging
-        int heartsBefore = currentHearts;
-        
         try
         {
+            // Wait one frame to ensure all state is consistent
+            yield return null;
+            
             // Process the sacrifice and wait for it to complete
             bool sacrificeCompleted = false;
-            void OnSacrificeComplete() { 
-                Debug.Log("OnSacrificeComplete called");
-                sacrificeCompleted = true; 
-            }
             
-            Debug.Log("Starting IntentionalSacrifice coroutine...");
-            var coroutine = IntentionalSacrifice(OnSacrificeComplete);
+            // Process the sacrifice
+            IEnumerator sacrificeRoutine = IntentionalSacrifice(() => {
+                Debug.Log("Sacrifice completed successfully");
+                sacrificeCompleted = true;
+            });
             
-            if (coroutine == null)
+            if (sacrificeRoutine == null)
             {
-                Debug.LogError("IntentionalSacrifice returned null coroutine");
+                Debug.LogError("Failed to create sacrifice routine");
                 isDying = false;
                 yield break;
             }
             
-            // Start the coroutine and store the reference
-            var sacrificeCoroutine = StartCoroutine(coroutine);
+            // Start the sacrifice routine and wait for it to complete
+            yield return StartCoroutine(sacrificeRoutine);
             
-            if (sacrificeCoroutine == null)
+            // If we get here, the sacrifice completed successfully
+            Debug.Log($"Sacrifice completed. Hearts: {currentHearts}");
+            
+            // If we still have hearts, we're done
+            if (currentHearts > 0)
             {
-                Debug.LogError("Failed to start sacrifice coroutine - StartCoroutine returned null");
+                Debug.Log("Player still has hearts, not respawning");
                 isDying = false;
                 yield break;
             }
             
-            Debug.Log("Waiting for sacrifice to complete...");
+            // Otherwise, handle respawn
+            Debug.Log("Handling respawn after sacrifice...");
             
-            // Wait for the sacrifice to complete with a timeout
-            float timeout = 5f; // 5 second timeout
-            float startTime = Time.time;
-            
-            while (!sacrificeCompleted && (Time.time - startTime) < timeout)
+            // Wait for respawn to complete
+            IEnumerator respawnRoutine = RespawnAfterDelay(DeathType.Intentional, transform.position);
+            if (respawnRoutine != null)
             {
-                yield return null;
+                yield return StartCoroutine(respawnRoutine);
             }
             
-            if (!sacrificeCompleted)
-            {
-                Debug.LogError("Sacrifice timed out!");
-                // Stop the coroutine if it's still running
-                StopCoroutine(sacrificeCoroutine);
-            }
-            
-            // Log the result
-            Debug.Log($"Sacrifice processed. Hearts before: {heartsBefore}, after: {currentHearts}");
+            Debug.Log("Respawn after sacrifice complete");
         }
         finally
         {
@@ -289,7 +277,7 @@ public class PlayerHealth : MonoBehaviour
                     var randomFruit = fruitInventory.RemoveOneRandomFruit();
                     if (randomFruit != null)
                     {
-                        Debug.Log($"Dropping fruit on death: {randomFruit.name}");
+                        //Debug.Log($"Dropping fruit on death: {randomFruit.name}");
                         // TODO: Implement fruit drop logic
                     }
                 }
@@ -308,29 +296,27 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
+        if (isDying) return; // Prevent multiple damage calls during death sequence
+        
         Debug.Log($"TakeDamage called. Current hearts: {currentHearts}, Amount: {amount}");
         
-        // Always remove exactly 1 heart per sacrifice
-        int newHearts = Mathf.Max(0, currentHearts - 1);
-        bool died = (newHearts <= 0);
-        
-        // Update hearts
-        currentHearts = newHearts;
+        // Always remove exactly 1 heart per damage instance
+        currentHearts = Mathf.Max(0, currentHearts - amount);
         OnHeartsChanged?.Invoke();
         
         Debug.Log($"Hearts after damage: {currentHearts}");
         
-        // Only trigger death if we're out of hearts
-        if (died)
+        // Check if player has no hearts left
+        if (currentHearts <= 0)
         {
             Debug.Log("Player has no hearts left, triggering death");
+            isDying = true;
             DieInternal(DeathType.Unintentional);
         }
-        else if (currentHearts > 0)
+        else
         {
-            // Only set isDying to false here if we're not actually dying
-            // This allows the respawn logic to complete
-            isDying = false;
+            // For non-fatal damage, just take the hit and continue
+            Debug.Log($"Player took {amount} damage. Hearts remaining: {currentHearts}");
         }
     }
     private IEnumerator IntentionalSacrifice(Action onComplete)
@@ -450,24 +436,20 @@ public class PlayerHealth : MonoBehaviour
             Debug.Log("No fruit choice UI available, using first fruit");
             pendingChosenFruit = availableFruits[0];
             // Remove the fruit from inventory
-            fruitInventory.RemoveOne(pendingChosenFruit);
             
-            // Take damage (only once)
-            TakeDamage(1);
+            // Only proceed with death if we're out of hearts
+            Debug.Log("No hearts left, proceeding with death sequence");
             
             // Trigger death effects
             onDeath?.Invoke();
             
             // Spawn corpse and handle death
-            HandleDeath(DeathType.Intentional, deathPos);
+            HandleDeath(DeathType.Intentional, transform.position);
             
-            // Start respawn coroutine
-            StartCoroutine(RespawnAfterDelay(DeathType.Intentional, deathPos));
-        }
-        }
-        finally
-        {
-            Debug.Log("IntentionalSacrifice finally block - invoking completion callback");
+            // Start respawn coroutine and wait for it to complete
+            yield return StartCoroutine(RespawnAfterDelay(DeathType.Intentional, transform.position));
+            
+            // Only complete after respawn is done
             onComplete?.Invoke();
         }
     }
@@ -501,90 +483,106 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    private IEnumerator RespawnAfterDelay(DeathType type, Vector3 deathPos)
+    IEnumerator RespawnAfterDelay(DeathType type, Vector3 deathPos)
     {
-        bool isFinalDeath = currentHearts <= 0; // Check if this is the final death (no hearts left)
+        bool isFinalDeath = (currentHearts <= 0);
         
         try
         {
+            // Wait for death animation/effects to play
             yield return new WaitForSeconds(1f);
             
+            Debug.Log($"[RESPAWN] Starting respawn. Hearts: {currentHearts}, Type: {type}, isFinalDeath: {isFinalDeath}");
+            
+            // Handle final death (player is out of lives)
             if (isFinalDeath)
             {
-                // Reset hearts to full when respawning at start
+                Debug.Log("[RESPAWN] Final death - resetting to base max hearts");
                 currentHearts = baseMaxHearts;
                 OnHeartsChanged?.Invoke();
-                Respawn(RespawnKind.Start);
+                
+                // For final death, try to use permanent spawn or start position
+                if (currentPermanentSpawn != null)
+                {
+                    Debug.Log($"[RESPAWN] Respawning at permanent spawn: {currentPermanentSpawn.position}");
+                    Respawn(RespawnKind.Permanent);
+                }
+                else
+                {
+                    Debug.Log("[RESPAWN] No permanent spawn, respawning at start");
+                    Respawn(RespawnKind.Start);
+                }
             }
+            // Normal respawn (player still has lives left)
             else
             {
-                // For normal deaths, respawn near the death position with a small offset
-                RespawnAtPosition(deathPos + new Vector3(0, 1f, 0)); // 1 unit above death position
+                Debug.Log($"[RESPAWN] Normal respawn with {currentHearts} hearts remaining");
+                
+                // For normal respawns, try to use the last checkpoint or local spawn
+                if (currentPermanentSpawn != null)
+                {
+                    Debug.Log($"[RESPAWN] Respawning at checkpoint: {currentPermanentSpawn.position}");
+                    Respawn(RespawnKind.Permanent);
+                }
+                else if (lastLocalSpawn != null)
+                {
+                    Debug.Log($"[RESPAWN] Respawning at local position: {lastLocalSpawn.position}");
+                    Respawn(RespawnKind.Local);
+                }
+                else
+                {
+                    Debug.Log("[RESPAWN] No spawn points found, respawning at start");
+                    Respawn(RespawnKind.Start);
+                }
             }
         }
         finally
         {
             isDying = false;
+            Debug.Log($"Respawn complete. Current hearts: {currentHearts}, isDying set to false");
+            
+            // Force update HUD to ensure it matches our current state
             OnHeartsChanged?.Invoke();
         }
     }
 
-    // New helper method to respawn at a specific position
-    private void RespawnAtPosition(Vector3 position)
+    void Respawn(RespawnKind kind = RespawnKind.Permanent)
     {
-        transform.position = position;
-        isDying = false;
-        onRespawn?.Invoke();
-    }
-
-    public void Respawn(RespawnKind kind = RespawnKind.Local)
-    {
-        switch (kind)
+        Debug.Log($"Respawning with kind: {kind}");
+        
+        // Always check permanent spawn first if it's set
+        if (currentPermanentSpawn != null)
         {
-            case RespawnKind.Start:
-                // Only reset position, don't modify hearts here
-                if (startSpawn != null)
-                {
-                    transform.position = startSpawn.position;
-                }
-                else
-                {
-                    transform.position = Vector3.zero;
-                }
-                break;
-                
-            case RespawnKind.Local:
-                // Try to use the last local spawn point
-                if (lastLocalSpawn != null)
-                {
-                    transform.position = lastLocalSpawn.position;
-                }
-                // Fall back to permanent spawn if no local spawn exists
-                else if (currentPermanentSpawn != null)
-                {
-                    transform.position = currentPermanentSpawn.position;
-                }
-                // Fall back to start if no other spawn points exist
-                else if (startSpawn != null)
-                {
-                    transform.position = startSpawn.position;
-                }
-                // Last resort: stay at current position
-                break;
-                
-            case RespawnKind.Permanent:
-                if (currentPermanentSpawn != null)
-                {
-                    transform.position = currentPermanentSpawn.position;
-                }
-                else if (startSpawn != null)
-                {
-                    transform.position = startSpawn.position;
-                }
-                break;
+            Debug.Log($"Respawning at permanent spawn: {currentPermanentSpawn.position}");
+            transform.position = currentPermanentSpawn.position;
+        }
+        else
+        {
+            switch (kind)
+            {
+                case RespawnKind.Start:
+                    Debug.Log("Respawning at start position");
+                    RespawnAtStart();
+                    break;
+                    
+                case RespawnKind.Local:
+                    Vector3 localPos = lastLocalSpawn != null ? lastLocalSpawn.position : transform.position;
+                    Debug.Log($"Respawning at local position: {localPos}");
+                    transform.position = localPos;
+                    break;
+                    
+                case RespawnKind.Permanent:
+                    // This should never happen due to the initial check, but just in case
+                    Debug.LogWarning("No permanent spawn point set! Respawning at start.");
+                    RespawnAtStart();
+                    break;
+            }
         }
         
+        // Reset necessary state
         isDying = false;
+        
+        // Trigger respawn event
         onRespawn?.Invoke();
     }
     public void SetPermanentSpawn(Vector3 position)
@@ -610,17 +608,28 @@ public class PlayerHealth : MonoBehaviour
         return transform.position;
     }
     
-    // This method is no longer needed as its logic is now in Respawn
-    private void RespawnAtStart()
+    public void RespawnAtStart()
     {
-        Respawn(RespawnKind.Start);
+        if (startSpawn != null)
+        {
+            transform.position = startSpawn.position;
+        }
+        else
+        {
+            transform.position = Vector3.zero;
+            // Debug.LogWarning("No start spawn point set! Respawning at (0,0,0)");
+        }
+        isDying = false;
+        // Don't reset hearts here - they should only be reset when completely out of lives
+        // HUD is updated via OnHeartsChanged event
+        onRespawn?.Invoke();
     }
     
-    private void SpawnCorpse(GameObject corpsePrefab, Vector3 position)
+    public void SpawnCorpse(GameObject corpsePrefab, Vector3 position)
     {
         if (corpsePrefab == null)
         {
-            Debug.LogError("Cannot spawn corpse: No corpse prefab provided!");
+            //Debug.LogError("Cannot spawn corpse: No corpse prefab provided!");
             return;
         }
         
@@ -631,7 +640,7 @@ public class PlayerHealth : MonoBehaviour
         Instantiate(corpsePrefab, spawnPos, Quaternion.identity);
     }
     
-    private void SpawnDefaultCorpse(Vector3 position)
+    public void SpawnDefaultCorpse(Vector3 position)
     {
         if (defaultCorpsePrefab == null)
         {
@@ -645,7 +654,7 @@ public class PlayerHealth : MonoBehaviour
             var collider = defaultCorpse.GetComponent<Collider>();
             if (collider != null) collider.isTrigger = true;
             
-            Debug.LogWarning("No default corpse prefab assigned, created a simple one");
+            //Debug.LogWarning("No default corpse prefab assigned, created a simple one");
             return;
         }
         
@@ -667,7 +676,7 @@ public class PlayerHealth : MonoBehaviour
             }
         }
         OnHeartsChanged?.Invoke();
-        Debug.Log($"Added extra heart slot. Total: {MaxHearts}, Extra: {extraSlotsFromHealing}");
+        //Debug.Log($"Added extra heart slot. Total: {MaxHearts}, Extra: {extraSlotsFromHealing}");
     }
     
     public void ClearExtraSlots()
@@ -677,103 +686,50 @@ public class PlayerHealth : MonoBehaviour
             extraSlotsFromHealing = 0;
             currentHearts = Mathf.Min(currentHearts, MaxHearts);
             OnHeartsChanged?.Invoke();
-            Debug.Log("Cleared all extra heart slots");
         }
     }
-    
-    public void HealOverTime(float amountPerSecond)
+    public void HealOverTime(float amount)
     {
-        if (isDying || amountPerSecond <= 0) 
+        if (currentHearts >= MaxHearts) 
         {
-            if (isHealing && !isInHealingZone)
+            if (isHealing)
             {
                 isHealing = false;
-                if (playerRenderer != null && !isInHealingZone)
+                if (playerRenderer != null)
                     playerRenderer.color = originalPlayerColor;
             }
             return;
         }
         
-        // Track healing over time to handle partial hearts
-        accumulatedHealing += amountPerSecond * Time.deltaTime;
+        isHealing = true;
         
-        // Only heal when we've accumulated enough for at least 1 heart
-        if (Mathf.Abs(accumulatedHealing) >= 1f)
+        // Accumulate healing
+        accumulatedHealing += amount;
+        
+        // Only heal when we've accumulated at least 1 point of healing
+        if (accumulatedHealing >= 1f)
         {
             int healAmount = Mathf.FloorToInt(accumulatedHealing);
+            accumulatedHealing -= healAmount; // Keep the remainder
             ModifyHearts(healAmount);
-            accumulatedHealing -= healAmount;
         }
         
-        // Visual feedback for healing
-        if (!isHealing && !isInHealingZone)
+        // Handle player pulsing effect
+        if (playerRenderer != null)
         {
-            isHealing = true;
-            if (playerRenderer != null && originalPlayerColor == default(Color))
-            {
-                originalPlayerColor = playerRenderer.color;
-            }
-        }
-    
-    // Call this when entering a healing zone
-    public void SetInHealingZone(bool inZone)
-    {
-        if (isInHealingZone == inZone) return;
-        
-        isInHealingZone = inZone;
-        
-        if (inZone)
-        {
-            // Store original color if not already stored
-            if (playerRenderer != null && originalPlayerColor == default(Color))
-            {
-                originalPlayerColor = playerRenderer.color;
-            }
-            
-            // Apply healing zone visual effect
-            if (playerRenderer != null)
-            {
-                playerRenderer.color = healingZoneColor;
-            }
-        }
-        else
-        {
-            // Restore original color when leaving healing zone
-            if (playerRenderer != null && originalPlayerColor != default(Color))
-            {
-                playerRenderer.color = originalPlayerColor;
-            }
-        }
-    }
-    
-    private void HandleHealingPulse()
-    {
-        if (playerRenderer == null) return;
-        
-        if (isInHealingZone)
-        {
-            // In healing zone - solid green color
-            playerRenderer.color = healingZoneColor;
-        }
-        else if (isHealing)
-        {
-            // Regular healing pulse effect
-            float pulse = (Mathf.Sin(Time.time * healPulseSpeed) + 1) * 0.5f * healPulseIntensity + (1 - healPulseIntensity);
-            playerRenderer.color = new Color(1, pulse, pulse, 1f);
-        }
-        else if (playerRenderer.color != originalPlayerColor)
-        {
-            // Smoothly transition back to original color
-            playerRenderer.color = Color.Lerp(playerRenderer.color, originalPlayerColor, Time.deltaTime * 5f);
+            float pulse = (Mathf.Sin(Time.time * healPulseSpeed) + 1f) * 0.5f * healPulseIntensity;
+            playerRenderer.color = Color.Lerp(originalPlayerColor, Color.green, pulse);
         }
     }
 
-    public void ModifyHearts(int amount)
+    private void ModifyHearts(int amount)
     {
+        if (amount == 0) return;
+        
         int oldHearts = currentHearts;
         currentHearts = Mathf.Clamp(currentHearts + amount, 0, MaxHearts);
         
-        Debug.Log($"Hearts modified from {oldHearts} to {currentHearts}");
+        //Debug.Log($"Hearts modified from {oldHearts} to {currentHearts}");
         
         // Update HUD
         OnHeartsChanged?.Invoke();

@@ -23,6 +23,8 @@ public class SimpleFruitChoiceUI : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
             choicePanel.SetActive(false);
+            // Reset scale when disabled
+            choicePanel.transform.localScale = Vector3.one;
         }
         else
         {
@@ -36,6 +38,12 @@ public class SimpleFruitChoiceUI : MonoBehaviour
         {
             Debug.LogError("Invalid parameters for ShowFruitChoice");
             return;
+        }
+
+        // Scale up the panel
+        if (choicePanel != null)
+        {
+            choicePanel.transform.localScale = Vector3.one * 1.5f; // Adjust scale as needed
         }
 
         // Clear existing buttons

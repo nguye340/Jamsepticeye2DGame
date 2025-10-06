@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f5c154a451bf4e41a740669ae12ef46, type: 3}
-  m_Name: New Fruit
+  m_Name: Fireshot
   m_EditorClassIdentifier: 
-  Id: 
-  DisplayName: 
-  Icon: {fileID: 0}
-  GrantsAbility: 0
-  CorpsePrefab: {fileID: 0}
-  PickupSfx: {fileID: 0}
+  Id: fruit_fire
+  DisplayName: Fire Shot
+  Icon: {fileID: 474337653, guid: 04e3be719b845434fa4958d333ecff19, type: 3}
+  GrantsAbility: 4
+  CorpsePrefab: {fileID: 114112775681927590, guid: 7de6e1913674fb44b9efe2c593acc2f8, type: 3}
+  PickupSfx: {fileID: 8300000, guid: c3b6ee059e20f1845bd19fdb27202b4b, type: 3}

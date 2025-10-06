@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   allFruits:
   - {fileID: 11400000, guid: 68d9fed7cf8ddc04ea129a7cae7a3d9f, type: 2}
-  - {fileID: 11400000, guid: 6bf7b74a874378f48b0c5688b720541f, type: 2}
+  - {fileID: 11400000, guid: 28388b86e202596459fafe982fdec3ae, type: 2}
+  - {fileID: 11400000, guid: 374546676333d1849a2217372413be1e, type: 2}
+  - {fileID: 11400000, guid: b9bd4944c7b742740b387339098e66a2, type: 2}
